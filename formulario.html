@@ -3,93 +3,90 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dados Pessoais</title>
+  <title>Formulário de Cadastro</title>
   <style>
     body {
-      margin: 0;
-      background-color: #000;
-      font-family: Arial, sans-serif;
+      background-color: black;
       color: white;
+      font-family: Arial, sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
-      min-height: 100vh;
-      background-image: url('logo-final.png');
-      background-repeat: no-repeat;
-      background-position: center top;
-      background-size: 300px;
+      justify-content: center;
+      height: 100vh;
     }
-
-    .form-container {
-      background-color: rgba(0, 0, 0, 0.8);
-      padding: 40px;
-      border-radius: 10px;
-      width: 90%;
-      max-width: 400px;
-      box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-      text-align: center;
-      margin-top: 260px;
-    }
-
     h2 {
       color: #FFD700;
-      margin-bottom: 20px;
     }
-
+    form {
+      background: #111;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #444;
+      width: 300px;
+      text-align: center;
+    }
     input {
       width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
       border-radius: 5px;
-      border: none;
-      font-size: 1rem;
     }
-
-    .btn {
-      background-color: #D80000;
+    button {
+      background-color: red;
       color: white;
-      padding: 12px 20px;
       border: none;
-      border-radius: 6px;
-      font-size: 1rem;
-      cursor: pointer;
+      padding: 10px;
       width: 100%;
-      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
     }
-
-    .btn:hover {
-      background-color: #a00000;
+    button:hover {
+      background-color: darkred;
     }
-
-    .info {
-      color: white;
-      font-size: 0.9rem;
-      margin-top: 15px;
+    p {
+      font-size: 12px;
+      color: #aaa;
     }
   </style>
 </head>
 <body>
-  <div class="form-container">
-    <h2>Preencha seus dados</h2>
-    <form onsubmit="handleSubmit(event)">
-      <input type="text" id="nome" placeholder="Nome completo" required>
-      <input type="email" id="email" placeholder="Seu melhor e-mail" required>
-      <input type="tel" id="whatsapp" placeholder="WhatsApp com DDD" required>
-      <button type="submit" class="btn">Entrar em contato com o time comercial</button>
-    </form>
-    <div class="info">Você será redirecionado para o WhatsApp</div>
-  </div>
+  <h2>Preencha seus dados</h2>
+  <form id="cadastroForm">
+    <input type="text" id="nome" placeholder="Nome completo" required>
+    <input type="email" id="email" placeholder="Seu melhor e-mail" required>
+    <input type="text" id="whatsapp" placeholder="WhatsApp com DDD" required>
+    <button type="submit">Entrar em contato com o time comercial</button>
+    <p>Você será redirecionado para o WhatsApp</p>
+  </form>
 
   <script>
-    function handleSubmit(event) {
-      event.preventDefault();
-      const nome = document.getElementById('nome').value;
-      const email = document.getElementById('email').value;
-      const whatsapp = document.getElementById('whatsapp').value;
-      const msg = `Olá! Gostaria de mais informações referente a vaga presencial!`;
-      const url = `https://wa.me/5548996356117?text=${encodeURIComponent(msg)}`;
-      window.location.href = url;
-    }
+    document.querySelector("#cadastroForm").addEventListener("submit", function(e){
+      e.preventDefault();
+
+      fetch("https://script.google.com/macros/s/AKfycby2p8e14N-bC0t9lo_QpewIlDQtLfchi0tzROSIr1k0XIVp1f8kTA0-eda5FGIu99Ne/exec", {
+          method: "POST",
+          headers: {
+              "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+              nome: document.querySelector("#nome").value,
+              email: document.querySelector("#email").value,
+              whatsapp: document.querySelector("#whatsapp").value
+          })
+      })
+      .then(response => response.json())
+      .then(data => {
+          alert("Dados enviados com sucesso!");
+          window.location.href = "https://wa.me/5548996707399?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20simula%C3%A7%C3%A3o!";
+      })
+      .catch(error => {
+          console.error("Erro:", error);
+          alert("Ocorreu um erro ao enviar os dados!");
+      });
+    });
   </script>
 </body>
 </html>
