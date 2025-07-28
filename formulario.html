@@ -1,63 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário - AC PROMOTORA</title>
+    <title>Formulário de Cadastro</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #000;
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .form-container {
-            background: #111;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-            width: 100%;
-            max-width: 400px;
-            text-align: center;
-        }
-        h2 {
-            color: #FFD700;
-            margin-bottom: 20px;
-        }
-        input {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: none;
-            border-radius: 5px;
-        }
-        button {
-            background: red;
-            color: #fff;
-            border: none;
-            padding: 12px;
-            border-radius: 5px;
-            width: 100%;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        button:hover {
-            background: darkred;
-        }
-        p {
-            font-size: 12px;
-            margin-top: 10px;
-            color: #aaa;
-        }
+        body { font-family: Arial, sans-serif; background-color: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
+        form { background: #111; padding: 20px; border-radius: 10px; width: 300px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; }
+        input { background: #222; color: #fff; }
+        button { background: red; color: #fff; font-size: 16px; cursor: pointer; }
+        button:hover { background: darkred; }
+        .mensagem { margin-top: 10px; font-size: 14px; }
     </style>
 </head>
 <body>
-
-<div class="form-container">
     <h2>Preencha seus dados</h2>
     <form id="formulario">
         <input type="text" name="nome" placeholder="Nome completo" required>
@@ -65,30 +22,32 @@
         <input type="text" name="whatsapp" placeholder="WhatsApp com DDD" required>
         <button type="submit">Entrar em contato com o time comercial</button>
     </form>
-    <p>Você será redirecionado para o WhatsApp</p>
-</div>
+    <p class="mensagem" id="mensagem"></p>
 
-<script>
-document.getElementById('formulario').addEventListener('submit', function(e) {
-  e.preventDefault();
-  
-  const formData = new FormData(this);
-  
-  fetch('https://script.google.com/macros/s/AKfycby2p8e14N-bC0t9lo_QpewIlDQtLfchi0tzROSIr1k0XIVp1f8kTA0-eda5FGIu99Ne/exec', {
-    method: 'POST',
-    body: formData
-  })
-  .then(response => response.text())
-  .then(result => {
-    alert('Dados enviados com sucesso!');
-    window.location.href = "https://wa.me/5548996356117?text=Ol%C3%A1%2C+gostaria+de+uma+simula%C3%A7%C3%A3o%21";
-  })
-  .catch(error => {
-    alert('Ocorreu um erro ao enviar os dados!');
-    console.error('Erro:', error);
-  });
-});
-</script>
+    <script>
+        document.getElementById('formulario').addEventListener('submit', function(e) {
+            e.preventDefault();
 
+            const dados = {
+                nome: e.target.nome.value,
+                email: e.target.email.value,
+                whatsapp: e.target.whatsapp.value
+            };
+
+            fetch("https://script.google.com/macros/s/AKfycbzZVft3ydhhNo4z9cx_gBYe6ikh6BuKeIHxuRh-e71R4XvgzHqJ3UR6VP_S_2if7X4w/exec", {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(dados)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('mensagem').textContent = "Dados enviados com sucesso!";
+                window.location.href = "https://wa.me/5548996356117?text=Olá, gostaria de fazer parte do time!";
+            })
+            .catch(error => {
+                document.getElementById('mensagem').textContent = "Erro ao enviar os dados!";
+            });
+        });
+    </script>
 </body>
 </html>
