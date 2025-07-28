@@ -1,53 +1,93 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Formulário de Cadastro</title>
-    <style>
-        body { font-family: Arial, sans-serif; background-color: #000; color: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh; }
-        form { background: #111; padding: 20px; border-radius: 10px; width: 300px; }
-        input, button { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; }
-        input { background: #222; color: #fff; }
-        button { background: red; color: #fff; font-size: 16px; cursor: pointer; }
-        button:hover { background: darkred; }
-        .mensagem { margin-top: 10px; font-size: 14px; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Formulário</title>
+  <style>
+    body {
+      background: #000;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+    .container {
+      background: #111;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 15px rgba(255,255,255,0.1);
+      width: 320px;
+      text-align: center;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 8px 0;
+      border: none;
+      border-radius: 5px;
+    }
+    button {
+      width: 100%;
+      padding: 12px;
+      background: red;
+      color: white;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover { background: darkred; }
+    .msg { margin-top: 10px; font-size: 14px; }
+  </style>
 </head>
 <body>
+  <div class="container">
     <h2>Preencha seus dados</h2>
-    <form id="formulario">
-        <input type="text" name="nome" placeholder="Nome completo" required>
-        <input type="email" name="email" placeholder="Seu melhor e-mail" required>
-        <input type="text" name="whatsapp" placeholder="WhatsApp com DDD" required>
-        <button type="submit">Entrar em contato com o time comercial</button>
-    </form>
-    <p class="mensagem" id="mensagem"></p>
+    <input type="text" id="nome" placeholder="Nome completo" required>
+    <input type="email" id="email" placeholder="Seu melhor e-mail" required>
+    <input type="text" id="whatsapp" placeholder="WhatsApp com DDD" required>
+    <button onclick="enviar()">Entrar em contato com o time comercial</button>
+    <div class="msg" id="msg"></div>
+  </div>
 
-    <script>
-        document.getElementById('formulario').addEventListener('submit', function(e) {
-            e.preventDefault();
+  <script>
+    async function enviar() {
+      const nome = document.getElementById("nome").value;
+      const email = document.getElementById("email").value;
+      const whatsapp = document.getElementById("whatsapp").value;
+      const msg = document.getElementById("msg");
 
-            const dados = {
-                nome: e.target.nome.value,
-                email: e.target.email.value,
-                whatsapp: e.target.whatsapp.value
-            };
+      if (!nome || !email || !whatsapp) {
+        msg.innerHTML = "Preencha todos os campos!";
+        msg.style.color = "yellow";
+        return;
+      }
 
-            fetch("https://script.google.com/macros/s/AKfycbzZVft3ydhhNo4z9cx_gBYe6ikh6BuKeIHxuRh-e71R4XvgzHqJ3UR6VP_S_2if7X4w/exec", {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(dados)
-            })
-            .then(response => response.json())
-            .then(data => {
-                document.getElementById('mensagem').textContent = "Dados enviados com sucesso!";
-                window.location.href = "https://wa.me/5548996356117?text=Olá, gostaria de fazer parte do time!";
-            })
-            .catch(error => {
-                document.getElementById('mensagem').textContent = "Erro ao enviar os dados!";
-            });
+      try {
+        const resposta = await fetch("https://script.google.com/macros/s/AKfycbxSrPZxvRZY0R2bc9SCQ-eZKoaAYK9NRZCxT_1N2mLZxv1zLp_yMglODHoxcd3rkWik/exec", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ nome, email, whatsapp })
         });
-    </script>
+
+        const resultado = await resposta.json();
+        if (resultado.status === "sucesso") {
+          msg.innerHTML = "Enviado com sucesso!";
+          msg.style.color = "green";
+          window.location.href = "https://wa.me/5548996356117";
+        } else {
+          msg.innerHTML = "Erro ao enviar: " + (resultado.message || "Tente novamente");
+          msg.style.color = "red";
+        }
+      } catch (err) {
+        msg.innerHTML = "Erro ao enviar os dados!";
+        msg.style.color = "red";
+      }
+    }
+  </script>
 </body>
 </html>
