@@ -1,92 +1,94 @@
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Formulário de Cadastro</title>
-  <style>
-    body {
-      background-color: black;
-      color: white;
-      font-family: Arial, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-    }
-    h2 {
-      color: #FFD700;
-    }
-    form {
-      background: #111;
-      padding: 20px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px #444;
-      width: 300px;
-      text-align: center;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 8px 0;
-      border: none;
-      border-radius: 5px;
-    }
-    button {
-      background-color: red;
-      color: white;
-      border: none;
-      padding: 10px;
-      width: 100%;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: darkred;
-    }
-    p {
-      font-size: 12px;
-      color: #aaa;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário - AC PROMOTORA</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #000;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .form-container {
+            background: #111;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+        }
+        button {
+            background: red;
+            color: #fff;
+            border: none;
+            padding: 12px;
+            border-radius: 5px;
+            width: 100%;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background: darkred;
+        }
+        p {
+            font-size: 12px;
+            margin-top: 10px;
+            color: #aaa;
+        }
+    </style>
 </head>
 <body>
-  <h2>Preencha seus dados</h2>
-  <form id="cadastroForm">
-    <input type="text" id="nome" placeholder="Nome completo" required>
-    <input type="email" id="email" placeholder="Seu melhor e-mail" required>
-    <input type="text" id="whatsapp" placeholder="WhatsApp com DDD" required>
-    <button type="submit">Entrar em contato com o time comercial</button>
+
+<div class="form-container">
+    <h2>Preencha seus dados</h2>
+    <form id="formulario">
+        <input type="text" name="nome" placeholder="Nome completo" required>
+        <input type="email" name="email" placeholder="Seu melhor e-mail" required>
+        <input type="text" name="whatsapp" placeholder="WhatsApp com DDD" required>
+        <button type="submit">Entrar em contato com o time comercial</button>
+    </form>
     <p>Você será redirecionado para o WhatsApp</p>
-  </form>
+</div>
 
-  <script>
-    document.querySelector("#cadastroForm").addEventListener("submit", function(e){
-      e.preventDefault();
+<script>
+document.getElementById('formulario').addEventListener('submit', function(e) {
+  e.preventDefault();
+  
+  const formData = new FormData(this);
+  
+  fetch('https://script.google.com/macros/s/AKfycby2p8e14N-bC0t9lo_QpewIlDQtLfchi0tzROSIr1k0XIVp1f8kTA0-eda5FGIu99Ne/exec', {
+    method: 'POST',
+    body: formData
+  })
+  .then(response => response.text())
+  .then(result => {
+    alert('Dados enviados com sucesso!');
+    window.location.href = "https://wa.me/5548996356117?text=Ol%C3%A1%2C+gostaria+de+uma+simula%C3%A7%C3%A3o%21";
+  })
+  .catch(error => {
+    alert('Ocorreu um erro ao enviar os dados!');
+    console.error('Erro:', error);
+  });
+});
+</script>
 
-      fetch("https://script.google.com/macros/s/AKfycby2p8e14N-bC0t9lo_QpewIlDQtLfchi0tzROSIr1k0XIVp1f8kTA0-eda5FGIu99Ne/exec", {
-          method: "POST",
-          headers: {
-              "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-              nome: document.querySelector("#nome").value,
-              email: document.querySelector("#email").value,
-              whatsapp: document.querySelector("#whatsapp").value
-          })
-      })
-      .then(response => response.json())
-      .then(data => {
-          alert("Dados enviados com sucesso!");
-          window.location.href = "https://wa.me/5548996707399?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20simula%C3%A7%C3%A3o!";
-      })
-      .catch(error => {
-          console.error("Erro:", error);
-          alert("Ocorreu um erro ao enviar os dados!");
-      });
-    });
-  </script>
 </body>
 </html>
