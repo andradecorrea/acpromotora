@@ -2,7 +2,74 @@
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
-  <meta http-equiv="refresh" content="0; url='https://wa.me/5548996707399?text=Ol%C3%A1%2C%20gostaria%20de%20uma%20simula%C3%A7%C3%A3o!'"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simulação FGTS - Vendedor 01</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f7f7f7;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    form {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    input {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background: #28a745;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #218838;
+    }
+  </style>
 </head>
-<body></body>
+<body>
+  <form id="leadForm">
+    <h2>Solicite sua Simulação</h2>
+    <input type="text" name="nome" placeholder="Nome completo" required>
+    <input type="text" name="cpf" placeholder="CPF" required>
+    <input type="text" name="whatsapp" placeholder="WhatsApp" required>
+    <button type="submit">Enviar</button>
+  </form>
+
+  <script>
+    document.getElementById('leadForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const formData = new FormData(e.target);
+      const data = {
+        nome: formData.get('nome'),
+        cpf: formData.get('cpf'),
+        whatsapp: formData.get('whatsapp'),
+        dataHora: new Date().toLocaleString()
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycbwHskT_W7eYnKGdN8-SSVMH1euNbyvoSpmJ7DEzBmAcME6Obl1pLt_BLmdrcNRwXRo8rA/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: { 'Content-Type': 'application/json' }
+      }).then(() => {
+        window.location.href = "https://wa.me/5548996852424?text=Ol%C3%A1!%20Gostaria%20de%20uma%20simula%C3%A7%C3%A3o%20referente%20ao%20resgate%20FGTS.";
+      });
+    });
+  </script>
+</body>
 </html>
