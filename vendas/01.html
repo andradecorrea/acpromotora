@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simule seu crédito | Vendedora 01</title>
+  <title>AC Promotora</title>
   <style>
     body {margin:0;font-family:Arial,sans-serif;background:#f8f8f8;color:#333;
       display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:2rem 1rem;}
@@ -13,8 +13,10 @@
     .form-container{background:#fff;padding:20px;border-radius:12px;
       box-shadow:0 2px 8px rgba(0,0,0,0.1);max-width:420px;width:100%;}
     label{display:block;margin-top:12px;font-weight:bold;font-size:0.9rem;}
-    input{width:100%;padding:10px;margin-top:6px;border:1px solid #ccc;border-radius:8px;font-size:1rem;}
-    button{margin-top:16px;width:100%;padding:12px;background:#d32f2f;color:#fff;border:0;border-radius:10px;font-size:1rem;cursor:pointer;}
+    input{width:100%;padding:10px;margin-top:6px;border:1px solid #ccc;
+      border-radius:8px;font-size:1rem;}
+    button{margin-top:16px;width:100%;padding:12px;background:#d32f2f;color:#fff;
+      border:0;border-radius:10px;font-size:1rem;cursor:pointer;}
     button:hover{background:#b71c1c;}
     p{font-size:0.85rem;color:#555;margin-top:10px;text-align:center;}
   </style>
@@ -40,32 +42,35 @@
   </div>
 
   <script>
-    const numero = "5548996852424"; // vendedora 01
+    const numero = "5548996707399"; // WhatsApp geral
     const onlyDigits = s => (s||"").replace(/\D+/g,"");
     const encode = s => encodeURIComponent(s);
 
+    // Máscara CPF
     const cpfInput = document.getElementById('cpf');
-    if (cpfInput) {
-      cpfInput.addEventListener('input', () => {
-        let v = onlyDigits(cpfInput.value).slice(0,11);
-        if (v.length > 9) v = v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/, "$1.$2.$3-$4");
-        else if (v.length > 6) v = v.replace(/(\d{3})(\d{3})(\d{0,3})/, "$1.$2.$3");
-        else if (v.length > 3) v = v.replace(/(\d{3})(\d{0,3})/, "$1.$2");
-        cpfInput.value = v;
+    if(cpfInput){
+      cpfInput.addEventListener('input',()=>{
+        let v=onlyDigits(cpfInput.value).slice(0,11);
+        if(v.length>9)v=v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,"$1.$2.$3-$4");
+        else if(v.length>6)v=v.replace(/(\d{3})(\d{3})(\d{0,3})/,"$1.$2.$3");
+        else if(v.length>3)v=v.replace(/(\d{3})(\d{0,3})/,"$1.$2");
+        cpfInput.value=v;
       });
     }
 
-    document.getElementById('enviarSimulacao').addEventListener('click', () => {
-      const nome = (document.getElementById('nome')?.value || "").trim();
-      const cpf  = (document.getElementById('cpf')?.value || "").trim();
-      const fone = (document.getElementById('fone')?.value || "").trim();
-      if (!nome || !cpf || !fone) { alert("Preencha nome, CPF e WhatsApp"); return; }
+    document.getElementById('enviarSimulacao').addEventListener('click',()=>{
+      const nome=(document.getElementById('nome')?.value||"").trim();
+      const cpf=(document.getElementById('cpf')?.value||"").trim();
+      const fone=(document.getElementById('fone')?.value||"").trim();
+      if(!nome||!cpf||!fone){alert("Preencha nome, CPF e WhatsApp");return;}
 
-      const msg = `Olá, gostaria de uma simulação!%0A` +
-                  `Nome: ${encode(nome)}%0A` +
-                  `CPF: ${encode(cpf)}%0A` +
-                  `WhatsApp: ${encode(fone)}`;
-      window.location.href = `https://wa.me/${numero}?text=${msg}`;
+      const msg = 
+        `Olá, gostaria de uma simulação Consignado do Trabalhador!%0A%0A` +
+        `👤 Nome: ${encode(nome)}%0A` +
+        `🆔 CPF: ${encode(cpf)}%0A` +
+        `📱 WhatsApp: ${encode(fone)}`;
+
+      window.location.href=`https://wa.me/${numero}?text=${msg}`;
     });
   </script>
 </body>
