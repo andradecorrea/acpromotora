@@ -116,7 +116,8 @@
   <script>
     /* ===== CONFIG DESTA PÁGINA ===== */
     const NUMERO_WHATSAPP = "5548996707399"; // /vendas (GERAL)
-    const SCRIPT_URL = "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"; // cole seu ID aqui
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlwj8BcmXx1DKal-8VWiT7vKhI69aBlh1bvkFEGSSv7mBm6dwM9qhR-aAbdIqFBUutyg/exec";
+    const PRODUTO = "Consignado do Trabalhador";
 
     /* ===== UTILITÁRIOS ===== */
     const enc = s => encodeURIComponent(s || "");
@@ -146,17 +147,21 @@
         return;
       }
 
-      // salva no Apps Script (opcional)
-      if (SCRIPT_URL.includes("YOUR_SCRIPT_ID") === false) {
-        fetch(SCRIPT_URL, {
-          method: 'POST',
-          mode: 'no-cors',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ nome, cpf, telefone, origem: location.pathname })
-        }).catch(()=>{});
-      }
+      // envia para o Google Sheets via Apps Script (sem bloquear o fluxo)
+      fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nome,
+          cpf,
+          telefone,
+          origem: location.pathname,  // ex.: /vendas, /vendas/01.html
+          produto: PRODUTO            // "Consignado do Trabalhador"
+        })
+      }).catch(()=>{});
 
-      // mensagem organizada (linhas separadas)
+      // mensagem organizada (linhas separadas) e redirecionamento ao WhatsApp
       const msg =
         `Olá, gostaria de uma simulação do Consignado CLT!%0A%0A` +
         ` Nome: ${enc(nome)}%0A` +
