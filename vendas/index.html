@@ -72,7 +72,7 @@
     <!-- no /vendas usamos caminho relativo pra logo na raiz -->
     <img class="logo" src="../logo-final.png" alt="AC Promotora" />
 
-    <h1>Contrate seu Crédito em até 10 minutos!</h1>
+    <h1>Mais crédito, menos espera. Simule agora!!</h1>
 
     <form id="fgtsForm">
       <input type="text" id="nome" placeholder="Nome completo" required>
@@ -132,10 +132,9 @@
       // mensagem organizada (linhas separadas)
       const msg =
         `Olá, gostaria de uma simulação do Consignado CLT!%0A%0A` +
-        `👤 Nome: ${enc(nome)}%0A` +
-        `🆔 CPF: ${enc(cpf)}%0A` +
-        `📱 Telefone/WhatsApp: ${enc(telefone)}%0A` +
-        `🔗 Origem: ${enc(location.pathname)}`;
+        ` Nome: ${enc(nome)}%0A` +
+        ` CPF: ${enc(cpf)}%0A` +
+        ` Telefone/WhatsApp: ${enc(telefone)}%0A` +
 
       window.location.href = `https://wa.me/${NUMERO_WHATSAPP}?text=${msg}`;
     });
