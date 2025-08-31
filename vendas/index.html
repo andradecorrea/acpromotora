@@ -10,7 +10,7 @@
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
+      font-family: 'Poppins', sans-serif;
       background-color: #121212;
       color: #ffffff;
       display: flex;
@@ -34,7 +34,6 @@
       display: block;
     }
     h1 {
-      font-family: 'Poppins', sans-serif;
       font-size: 1.4rem;
       font-weight: 400;
       margin-top: 0.5rem;
@@ -48,12 +47,16 @@
     }
     .subtitulo {
       color: #f5f5f5;   /* branco suavizado */
-      font-weight: 500; /* levemente mais forte */
+      font-weight: 500;
       display: block;
       margin-top: 0.3rem;
     }
-    input {
+    input,
+    button {
       width: 100%;
+      box-sizing: border-box; /* garante alinhamento igual */
+    }
+    input {
       padding: 0.75rem;
       margin-bottom: 1rem;
       border: none;
@@ -61,24 +64,23 @@
       background-color: #2c2c2c;
       color: white;
       font-size: 1rem;
+      height: 48px;
     }
     button {
-  width: 100%;
-  height: 48px;               /* mesma altura dos inputs */
-  padding: 0.75rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #ffd700;
-  color: #121212;             /* texto preto para contraste melhor */
-  font-weight: 600;           /* semi-bold para ficar legível */
-  font-size: 1rem;
-  cursor: pointer;
-  display: block;             /* garante alinhamento */
-  margin-top: 0.5rem;         /* um respiro depois do campo */
-}
-button:hover {
-  background-color: #e6c200;  /* efeito hover mais escuro */
-}
+      height: 48px;
+      border: none;
+      border-radius: 8px;
+      background-color: #ffd700;
+      color: #121212;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      display: block;
+    }
+    button:hover {
+      background-color: #e6c200;
+    }
     .footer {
       margin-top: 1rem;
       text-align: center;
