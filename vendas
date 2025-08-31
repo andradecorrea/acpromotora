@@ -1,74 +1,73 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Simulação FGTS - Vendedor 01</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simule seu crédito | AC Promotora</title>
   <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f7f7f7;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-    form {
-      background: #fff;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-      width: 300px;
-    }
-    input {
-      width: 100%;
-      padding: 10px;
-      margin: 10px 0;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-    button {
-      width: 100%;
-      padding: 10px;
-      background: #28a745;
-      color: #fff;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-    }
-    button:hover {
-      background: #218838;
-    }
+    body {margin:0;font-family:Arial,sans-serif;background:#f8f8f8;color:#333;
+      display:flex;flex-direction:column;align-items:center;min-height:100vh;padding:2rem 1rem;}
+    header{text-align:center;margin-bottom:2rem;}
+    header img{max-width:200px;}
+    h1{font-size:1.8rem;margin-bottom:1rem;color:#d32f2f;}
+    .form-container{background:#fff;padding:20px;border-radius:12px;
+      box-shadow:0 2px 8px rgba(0,0,0,0.1);max-width:420px;width:100%;}
+    label{display:block;margin-top:12px;font-weight:bold;font-size:0.9rem;}
+    input{width:100%;padding:10px;margin-top:6px;border:1px solid #ccc;
+      border-radius:8px;font-size:1rem;}
+    button{margin-top:16px;width:100%;padding:12px;background:#d32f2f;color:#fff;
+      border:0;border-radius:10px;font-size:1rem;cursor:pointer;}
+    button:hover{background:#b71c1c;}
+    p{font-size:0.85rem;color:#555;margin-top:10px;text-align:center;}
   </style>
 </head>
 <body>
-  <form id="leadForm">
-    <h2>Solicite sua Simulação</h2>
-    <input type="text" name="nome" placeholder="Nome completo" required>
-    <input type="text" name="cpf" placeholder="CPF" required>
-    <input type="text" name="whatsapp" placeholder="WhatsApp" required>
-    <button type="submit">Enviar</button>
-  </form>
+  <header>
+    <img src="../logo-final.png" alt="AC Promotora Logo">
+    <h1>Faça sua Simulação</h1>
+  </header>
+
+  <div class="form-container">
+    <label>Nome completo</label>
+    <input id="nome" type="text" required />
+
+    <label>CPF</label>
+    <input id="cpf" type="text" inputmode="numeric" maxlength="14" placeholder="000.000.000-00" />
+
+    <label>WhatsApp</label>
+    <input id="fone" type="tel" inputmode="tel" placeholder="(48) 99999-9999" />
+
+    <button id="enviarSimulacao">Enviar e ir para o WhatsApp</button>
+    <p>Ao enviar, você será redirecionado(a) ao WhatsApp com sua mensagem preenchida.</p>
+  </div>
 
   <script>
-    document.getElementById('leadForm').addEventListener('submit', function(e) {
-      e.preventDefault();
-      
-      const formData = new FormData(e.target);
-      const data = {
-        nome: formData.get('nome'),
-        cpf: formData.get('cpf'),
-        whatsapp: formData.get('whatsapp'),
-        dataHora: new Date().toLocaleString()
-      };
+    const numero = "5548996707399"; // GERAL
+    const onlyDigits = s => (s||"").replace(/\D+/g,"");
+    const encode = s => encodeURIComponent(s);
 
-      fetch('https://script.google.com/macros/s/AKfycbwHskT_W7eYnKGdN8-SSVMH1euNbyvoSpmJ7DEzBmAcME6Obl1pLt_BLmdrcNRwXRo8rA/exec', {
-        method: 'POST',
-        body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' }
-      }).then(() => {
-        window.location.href = "https://wa.me/5548996852424?text=Ol%C3%A1!%20Gostaria%20de%20uma%20simula%C3%A7%C3%A3o%20referente%20ao%20resgate%20FGTS.";
+    // Máscara CPF
+    const cpfInput = document.getElementById('cpf');
+    if(cpfInput){
+      cpfInput.addEventListener('input',()=>{
+        let v=onlyDigits(cpfInput.value).slice(0,11);
+        if(v.length>9)v=v.replace(/(\d{3})(\d{3})(\d{3})(\d{0,2})/,"$1.$2.$3-$4");
+        else if(v.length>6)v=v.replace(/(\d{3})(\d{3})(\d{0,3})/,"$1.$2.$3");
+        else if(v.length>3)v=v.replace(/(\d{3})(\d{0,3})/,"$1.$2");
+        cpfInput.value=v;
       });
+    }
+
+    document.getElementById('enviarSimulacao').addEventListener('click',()=>{
+      const nome=(document.getElementById('nome')?.value||"").trim();
+      const cpf=(document.getElementById('cpf')?.value||"").trim();
+      const fone=(document.getElementById('fone')?.value||"").trim();
+      if(!nome||!cpf||!fone){alert("Preencha nome, CPF e WhatsApp");return;}
+      const msg=`Olá, gostaria de uma simulação!%0A`+
+        `Nome: ${encode(nome)}%0A`+
+        `CPF: ${encode(cpf)}%0A`+
+        `WhatsApp: ${encode(fone)}`;
+      window.location.href=`https://wa.me/${numero}?text=${msg}`;
     });
   </script>
 </body>
