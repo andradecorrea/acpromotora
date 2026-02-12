@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simule seu Empréstimo Consignado do Trabalhador | AC Financeira</title>
+  <title>Simule seu FGTS | AC Promotora</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
@@ -115,9 +115,9 @@
 
   <script>
     /* ===== CONFIG DESTA PÁGINA ===== */
-    const NUMERO_WHATSAPP = "5548996573609"; // /vendas (GERAL)
+    const NUMERO_WHATSAPP = "5548996356117"; // /vendas (FGTS1)
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwlwj8BcmXx1DKal-8VWiT7vKhI69aBlh1bvkFEGSSv7mBm6dwM9qhR-aAbdIqFBUutyg/exec";
-    const PRODUTO = "Consignado do Trabalhador";
+    const PRODUTO = "FGTS";
 
     /* ===== UTILITÁRIOS ===== */
     const enc = s => encodeURIComponent(s || "");
@@ -157,13 +157,13 @@
           cpf,
           telefone,
           origem: location.pathname,  // ex.: /vendas, /vendas/01.html
-          produto: PRODUTO            // "Consignado do Trabalhador"
+          produto: PRODUTO            // "FGTS"
         })
       }).catch(()=>{});
 
       // mensagem organizada (linhas separadas) e redirecionamento ao WhatsApp
       const msg =
-        `Olá, gostaria de uma simulação do Consignado CLT!%0A%0A` +
+        `Olá, gostaria de uma simulação FGTS.%0A%0A` +
         ` Nome: ${enc(nome)}%0A` +
         ` CPF: ${enc(cpf)}%0A` +
         ` Telefone/WhatsApp: ${enc(telefone)}`;
